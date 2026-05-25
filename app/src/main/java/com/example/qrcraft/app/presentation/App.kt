@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.qrcraft.BuildConfig
 import com.example.qrcraft.app.di.appModule
 import com.example.qrcraft.core.di.coreModule
+import com.example.qrcraft.feature.di.featureModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -25,6 +26,7 @@ class App : Application() {
             modules(
                 appModule,
                 coreModule,
+                featureModule
             )
         }
     }

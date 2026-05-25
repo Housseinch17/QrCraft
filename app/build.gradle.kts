@@ -91,4 +91,10 @@ dependencies {
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
+
+    // ML kit
+    implementation(libs.mlkit)
+
+    // Camera bundle
+    implementation(libs.bundles.camera)
 }

@@ -16,6 +16,8 @@ timber = "5.0.1"
 ksp = "2.0.21-1.0.28"
 room = "2.7.1"
 koin = "4.0.0"
+camera = "1.6.1"
+mlkit = "17.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -42,6 +44,7 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+
 # Room Libraries
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
@@ -49,6 +52,15 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 
 # Timber logging library
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+
+# Camera Libraries
+camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "camera"}
+camera-camera = { group = "androidx.camera", name = "camera-camera2", version.ref = "camera"}
+camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "camera"}
+camerax-compose = {group = "androidx.camera", name = "camera-compose", version.ref = "camera"}
+
+# ML Kit Barcode Scanning
+mlkit = {module = "com.google.mlkit:barcode-scanning",version.ref = "mlkit"}
 
 # Koin libraries
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
@@ -69,3 +81,5 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 [bundles]
 # koin libraries bundle
 koin-compose = ["koin-core","koin-android","koin-androidx-compose"]
+# Camera libraries bundle
+camera = ["camera-core","camera-camera","camera-lifecycle","camerax-compose"]

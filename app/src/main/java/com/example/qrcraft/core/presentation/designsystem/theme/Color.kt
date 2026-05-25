@@ -23,4 +23,5 @@ val Phone = Color(0xFFC86017)
 val PhoneBG = Color(0xFFC86017).copy(alpha = 0.1f)
 val Wifi = Color(0xFF1F44CD)
 val WifiBG = Color(0xFF1F44CD).copy(alpha = 0.1f)
+val Splash = Color(0xFF273037)
 

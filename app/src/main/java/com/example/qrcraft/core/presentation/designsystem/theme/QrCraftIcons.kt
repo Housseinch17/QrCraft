@@ -7,8 +7,8 @@ import com.example.qrcraft.R
 
 object QrCraftIcons {
     val alert: ImageVector
-    @Composable
-    get() = ImageVector.vectorResource(R.drawable.alert)
+        @Composable
+        get() = ImageVector.vectorResource(R.drawable.alert)
 
     val arrowLeft: ImageVector
         @Composable
@@ -73,4 +73,9 @@ object QrCraftIcons {
     val zapOff: ImageVector
         @Composable
         get() = ImageVector.vectorResource(R.drawable.zap_off)
+
+
+    val frame: ImageVector
+        @Composable
+        get() = ImageVector.vectorResource(R.drawable.frame)
 }

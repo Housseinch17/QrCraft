@@ -7,10 +7,6 @@ import com.example.qrcraft.R
 
 object QrCraftImages {
     val barcode: Painter
-    @Composable
-    get() = painterResource(R.drawable.barcode)
-
-    val frame: Painter
         @Composable
-        get() = painterResource(R.drawable.frame)
+        get() = painterResource(R.drawable.barcode)
 }

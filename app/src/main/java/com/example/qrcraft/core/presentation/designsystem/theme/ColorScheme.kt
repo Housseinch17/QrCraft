@@ -72,4 +72,8 @@ val ColorScheme.wifiBG: Color
     @Composable
     get() = WifiBG
 
+val ColorScheme.splash: Color
+    @Composable
+    get() = Splash
+
 

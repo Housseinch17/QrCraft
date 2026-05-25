@@ -5,8 +5,12 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.example.qrcraft.app.presentation.navigation.CustomNavType
 import com.example.qrcraft.app.presentation.navigation.NavigationGraphs
 import com.example.qrcraft.app.presentation.navigation.NavigationScreens
+import com.example.qrcraft.core.data.model.BarModel
+import com.example.qrcraft.feature.presentation.main.MainRoot
+import kotlin.reflect.typeOf
 
 fun NavGraphBuilder.scanGraph(
     modifier: Modifier = Modifier,
@@ -16,10 +20,23 @@ fun NavGraphBuilder.scanGraph(
         startDestination = NavigationScreens.Main
     ) {
         composable<NavigationScreens.Main> {
-
+            MainRoot(
+                modifier = modifier,
+                navigateToScanResult = { barModel ->
+                    navHostController.navigate(
+                        NavigationScreens.ScanResult(
+                            barModel = barModel
+                        )
+                    )
+                }
+            )
         }
 
-        composable<NavigationScreens.ScanResult> {
+        composable<NavigationScreens.ScanResult>(
+            typeMap = mapOf(
+                typeOf<BarModel>() to CustomNavType.BarModelNavType
+            )
+        ) {
 
         }
     }
