@@ -12,6 +12,10 @@ val ColorScheme.onSurfaceAlt: Color
     @Composable
     get() = OnSurfaceAlt
 
+val ColorScheme.onSurfaceDisabled: Color
+    @Composable
+    get() = OnSurfaceDisabled
+
 val ColorScheme.overlay: Color
     @Composable
     get() = Overlay

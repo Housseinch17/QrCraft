@@ -22,5 +22,8 @@ sealed interface ScannedContent {
     data class PhoneContent(val number: String) : ScannedContent
 
     @Serializable
-    data class WifiContent(val ssid: String, val password: String?) : ScannedContent
+    data class WifiContent(val ssid: String, val password: String?, val securityType: String) : ScannedContent
+
+    @Serializable
+    data class GeoContent(val latitude: String, val longitude: String): ScannedContent
 }

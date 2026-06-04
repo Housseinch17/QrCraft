@@ -41,6 +41,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,6 +50,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.qrcraft.R
@@ -56,10 +59,10 @@ import com.example.qrcraft.core.data.model.BarModel
 import com.example.qrcraft.core.presentation.designsystem.components.QrCraftDialog
 import com.example.qrcraft.core.presentation.designsystem.components.QrCraftSnackBar
 import com.example.qrcraft.core.presentation.designsystem.theme.QrCraftIcons
-import com.example.qrcraft.core.presentation.designsystem.theme.onOverlay
+import com.example.qrcraft.core.presentation.designsystem.theme.success
 import com.example.qrcraft.core.presentation.ui.ObserveAsEvents
 import com.example.qrcraft.core.presentation.ui.UiText
-import com.example.qrcraft.feature.data.mapper.toBarModel
+import com.example.qrcraft.feature.mapper.toBarModel
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
@@ -72,7 +75,7 @@ import timber.log.Timber
 fun MainRoot(
     modifier: Modifier = Modifier,
     mainScreenViewModel: MainScreenViewModel = koinViewModel(),
-    navigateToScanResult: (BarModel) -> Unit = {},
+    navigateToScanResult: (BarModel) -> Unit,
 ) {
     val state by mainScreenViewModel.state.collectAsStateWithLifecycle()
 
@@ -128,6 +131,23 @@ fun MainRoot(
             is MainScreenEvents.NavigateToScanResult -> {
                 navigateToScanResult(events.barModel)
             }
+        }
+    }
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    //navigating back will reset the scanning barcode state so we can scan again
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                mainScreenViewModel.onActions(
+                    MainScreenActions.UpdateIsScanningBarcode(isScanningBarcode = false)
+                )
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
 
@@ -239,6 +259,8 @@ fun CameraPreviewScreen(
         }
     }
 
+    val currentIsScanning by rememberUpdatedState(isScanningBarcode)
+
     val imageAnalyzer = remember {
         ImageAnalysis.Builder()
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
@@ -252,7 +274,7 @@ fun CameraPreviewScreen(
                         imageProxy = imageProxy,
                         updateIsScanningBarcode = updateIsScanningBarcode,
                         onBarcodeScanned = onBarcodeScanned,
-                        isScanning = isScanningBarcode
+                        isScanning = currentIsScanning
                     )
                 }
             }
@@ -306,13 +328,13 @@ fun CameraPreviewScreen(
             ) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(30.dp),
-                    color = MaterialTheme.colorScheme.onOverlay
+                    color = MaterialTheme.colorScheme.success
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(
                     text = stringResource(R.string.loading) + "...",
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        color = MaterialTheme.colorScheme.onOverlay
+                        color = MaterialTheme.colorScheme.success
                     )
                 )
             }
@@ -357,7 +379,7 @@ private fun processImageProxy(
         .addOnFailureListener {
             updateIsScanningBarcode(false)
         }
-        .addOnCompleteListener { task->
+        .addOnCompleteListener { task ->
             if (!task.isSuccessful || task.result.isNullOrEmpty()) {
                 updateIsScanningBarcode(false)
             }

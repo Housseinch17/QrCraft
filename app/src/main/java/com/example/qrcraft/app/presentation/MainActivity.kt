@@ -13,7 +13,6 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
 import com.example.qrcraft.app.presentation.navigation.NavigationRoot
 import com.example.qrcraft.core.presentation.designsystem.theme.QRCraftTheme
-import com.example.qrcraft.core.presentation.designsystem.theme.splash
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +24,7 @@ class MainActivity : ComponentActivity() {
             QRCraftTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    containerColor = MaterialTheme.colorScheme.splash
+                    containerColor = MaterialTheme.colorScheme.onSurface
                 ) { innerPadding ->
                     NavigationRoot(
                         modifier = Modifier
